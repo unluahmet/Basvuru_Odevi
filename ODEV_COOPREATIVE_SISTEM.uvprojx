@@ -430,6 +430,9 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Buffer</GroupName>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>

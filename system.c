@@ -1,8 +1,10 @@
 #include "main.h"
 
+volatile uint32_t SysTickVar;
+
 void SysTick_Handler(void)
 {
-	
+	SysTickVar++;
 }
 
 void system_init()
@@ -21,4 +23,5 @@ void system_init()
 	
 	SystemCoreClockUpdate();
 	SysTick_Config(SystemCoreClock / 1000U);
+	NVIC_SetPriority(SysTick_IRQn, 15);
 }
