@@ -11,6 +11,10 @@ typedef enum {
 
 void led_init(void);
 
+void led_setState(LED_TASK_STATE newState);
+void led_setOnTime(uint32_t newOnTime);
+void led_setOffTime(uint32_t newOffTime);
+
 void led_on(void);
 void led_off(void);
 void led_toggle(void);

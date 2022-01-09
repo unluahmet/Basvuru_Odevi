@@ -2,7 +2,7 @@
 
 uint32_t led_onTime = 300;
 uint32_t led_offTime = 700;
-LED_TASK_STATE ledTaskState = LED_TASK_STATE_ON;
+LED_TASK_STATE led_taskState = LED_TASK_STATE_ON;
 
 void led_init()
 {
@@ -16,6 +16,14 @@ void led_init()
 	// Initial State
 	led_off();
 }
+
+void led_setState(LED_TASK_STATE newState)
+{
+	led_taskState = newState;
+}
+
+void led_setOnTime(uint32_t newOnTime) { led_onTime = newOnTime; }
+void led_setOffTime(uint32_t newOffTime) { led_offTime = newOffTime; }
 
 void led_on() { GPIOG->BSRR |= (1UL << 14U); }
 void led_off() { GPIOG->BSRR |= (1UL << (14U + 16U)); }
@@ -32,7 +40,7 @@ void led_task(void)
 	lastCall = system_getTick();
 	
 	// State
-	switch (ledTaskState)
+	switch (led_taskState)
 	{
 		case LED_TASK_STATE_STOP:
 		{
@@ -47,7 +55,7 @@ void led_task(void)
 			// wait led_onTime
 			led_on();
 			waitTime = led_onTime;
-			ledTaskState = LED_TASK_STATE_OFF;
+			led_taskState = LED_TASK_STATE_OFF;
 			break;
 		}
 		
@@ -56,13 +64,13 @@ void led_task(void)
 			// wait led_offTime
 			led_off();
 			waitTime = led_offTime;
-			ledTaskState = LED_TASK_STATE_ON;
+			led_taskState = LED_TASK_STATE_ON;
 			break;
 		}
 		
 		default:
 		{
-			ledTaskState = LED_TASK_STATE_ON;
+			led_taskState = LED_TASK_STATE_ON;
 		}
 	}
 }
