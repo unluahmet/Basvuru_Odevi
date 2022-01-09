@@ -7,9 +7,6 @@ int main(void)
 	// Clock
 	system_init();
 	
-	// Uart
-	uart_init(115200, UART_DATA_BITS_8, UART_PARITY_NONE, UART_STOP_BITS_1);
-	
 	// Led
 	led_init();
 	

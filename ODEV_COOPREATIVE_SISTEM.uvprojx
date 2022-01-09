@@ -430,6 +430,21 @@
           </Files>
         </Group>
         <Group>
+          <GroupName>Buffer</GroupName>
+          <Files>
+            <File>
+              <FileName>buffer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\buffer.h</FilePath>
+            </File>
+            <File>
+              <FileName>buffer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\buffer.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
           <GroupName>::CMSIS</GroupName>
         </Group>
         <Group>
