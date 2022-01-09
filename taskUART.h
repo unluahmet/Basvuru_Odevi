@@ -21,4 +21,8 @@ typedef enum {
 	UART_PARITY_NONE 	= 0b00,
 } UART_PARITY;
 
+void uart_init(uint32_t baudrate, UART_DATA_BITS databits, UART_PARITY parity, UART_STOP_BITS stopbits);
+void uart_task(void);
+
+
 #endif

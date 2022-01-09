@@ -7,6 +7,11 @@ void SysTick_Handler(void)
 	SysTickVar++;
 }
 
+uint32_t system_getTick()
+{
+	return SysTickVar;
+}
+
 void system_init()
 {
 	// 168 MHZ

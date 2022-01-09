@@ -19,6 +19,6 @@
 
 
 void system_init();
-
+uint32_t system_getTick();
 
 #endif

@@ -5,7 +5,17 @@ volatile char uartRxChar = 0;
 
 void USART1_IRQHandler(void)
 {
-	
+	if( (USART1->SR & USART_SR_RXNE) == USART_SR_RXNE )
+	{
+		// Flag
+		USART1->SR &= ~USART_SR_RXNE;
+		
+		// Read char
+		uartRxChar = USART1->DR;
+		
+		// Add char to buffer
+		
+	}
 }
 
 void uart_init(uint32_t baudrate, UART_DATA_BITS databits, UART_PARITY parity, UART_STOP_BITS stopbits)
