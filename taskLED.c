@@ -55,7 +55,7 @@ void led_task(void)
 		{
 			// wait led_offTime
 			led_off();
-			waitTime = led_onTime;
+			waitTime = led_offTime;
 			ledTaskState = LED_TASK_STATE_ON;
 			break;
 		}
