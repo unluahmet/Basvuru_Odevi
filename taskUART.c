@@ -2,7 +2,7 @@
 #include "taskLED.h"
 #include "buffer.h"
 
-#define UART_IS_STRING_EQUAL(str1, str2) (strstr(str1, str2) == 0)
+#define UART_IS_STRING_EQUAL(str1, str2) (strstr(str1, str2) != 0)
 #define UART_DATA_TERMINATOR '\r'
 #define ECHO_MAX_BUFFER_SIZE 32
 #define UART_MAX_DATA 16
@@ -57,13 +57,16 @@ void USART1_IRQHandler(void)
 		{
 			uart_data_ready = true;
 			uart_data[uart_data_index] = '\0';
-			uart_data_index = 0; 
 		}
 		
 		// Parse data array
 		if (uart_data_ready)
 		{
 			int parsed_int_data = 0;
+			
+			// Reset flag and index
+			uart_data_index = 0; 
+			uart_data_ready = false;
 			
 			// Uart'tan "stop" stringi gönderdigimizde echo taski sonlanacak ve led 1sn araliklarla yanip sönecek.
 			if (UART_IS_STRING_EQUAL(uart_data, "stop")) 
