@@ -1,7 +1,24 @@
 #include "taskUART.h"
+#include "buffer.h"
+
+#define UART_DATA_TERMINATOR '\r'
+#define ECHO_MAX_BUFFER_SIZE 32
+#define UART_MAX_DATA 16
+
+// Buffer
+Buffer_t ECHO_Buffer;
+volatile int8_t ECHO_Buffer_Array[ECHO_MAX_BUFFER_SIZE];
+
+// Data
+bool uart_data_ready = false;
+char uart_data[UART_MAX_DATA] = {0};
+int uart_data_index = 0;
+
+// State
+UART_TASK_STATE uart_taskState = UART_TASK_STATE_INIT;
 
 // ISR
-volatile char uartRxChar = 0;
+volatile char uartRxChar;
 
 void USART1_IRQHandler(void)
 {
@@ -13,13 +30,30 @@ void USART1_IRQHandler(void)
 		// Read char
 		uartRxChar = USART1->DR;
 		
-		// Add char to buffer
+		// Add char to echo buffer
+		Buffer_Write(&ECHO_Buffer, (void*)&uartRxChar);
+		
+		// Add char to data array
+		uart_data[uart_data_index++] = uartRxChar;
+		if (uart_data_index >= UART_MAX_DATA) { uart_data_index = 0; }
+			
+		// Check data
+		if (uartRxChar == UART_DATA_TERMINATOR) 
+		{
+			uart_data_ready = true;
+			uart_data[uart_data_index] = '\0';
+			uart_data_index = 0; 
+		}
+		
 		
 	}
 }
 
 void uart_init(uint32_t baudrate, UART_DATA_BITS databits, UART_PARITY parity, UART_STOP_BITS stopbits)
 {
+	// Buffer init
+	Buffer_InitStatic(&ECHO_Buffer, ECHO_Buffer_Array, ECHO_MAX_BUFFER_SIZE, ECHO_MAX_BUFFER_SIZE, sizeof(char));
+	
 	// UART
 	RCC->APB2ENR |= RCC_APB2ENR_USART1EN;
 	

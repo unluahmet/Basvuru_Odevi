@@ -4,6 +4,12 @@
 #include "main.h"
 
 typedef enum {
+	UART_TASK_STATE_INIT,
+	UART_TASK_STATE_ECHO_ON,
+	UART_TASK_STATE_ECHO_OFF
+} UART_TASK_STATE;
+
+typedef enum {
 	UART_STOP_BITS_1 = 0U,
 	UART_STOP_BITS_0_5 = 1U,
 	UART_STOP_BITS_2 = 2U,
@@ -22,6 +28,7 @@ typedef enum {
 } UART_PARITY;
 
 void uart_init(uint32_t baudrate, UART_DATA_BITS databits, UART_PARITY parity, UART_STOP_BITS stopbits);
+void uart_setState(UART_TASK_STATE newState);
 void uart_task(void);
 
 
